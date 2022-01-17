@@ -1,5 +1,5 @@
 # New ABAP Features
-Examples of new ABAP features developed at INWERKEN Code-Dojo sessions.
+Examples of new ABAP features developed at INWERKEN Code-Dojo sessions. Trying to respect [SAP Clean ABAP Style guides](https://github.com/SAP/styleguides/blob/main/clean-abap/CleanABAP.md)
 
 # implemented Examples
 * NEW
