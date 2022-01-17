@@ -20,3 +20,5 @@ example for testing private methods using LOCAL FRIENDS.
 * Corresponding
 * String templates
 * table expressions
+* COND
+* SWITCH
