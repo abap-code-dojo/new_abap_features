@@ -1,5 +1,7 @@
 # New ABAP Features
-Examples of new ABAP features
+Examples of new ABAP features developed at INWERKEN Code-Dojo sessions.
+
+# implemented Examples
 * NEW
 * VALUE
   * FOR
