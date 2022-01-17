@@ -4,6 +4,14 @@ CLASS zcl_code_dojo_new_features DEFINITION
   CREATE PUBLIC .
 
   PUBLIC SECTION.
+
+    TYPES: BEGIN OF _generic_range_str,
+             sign   TYPE c LENGTH 1,
+             option TYPE c LENGTH 2,
+             low    TYPE c LENGTH 50,
+             high   TYPE c LENGTH 50,
+           END OF _generic_range_str,
+           _generic_range_tab TYPE STANDARD TABLE OF _generic_range_str WITH DEFAULT KEY.
     TYPES:
       BEGIN OF ts_demodata,
         name_first TYPE string,
@@ -25,54 +33,58 @@ CLASS zcl_code_dojo_new_features DEFINITION
       END OF _city_count .
     TYPES:
       _cities_count TYPE STANDARD TABLE OF _city_count WITH DEFAULT KEY .
-
-    TYPES: BEGIN OF _material_price,
-             matnr TYPE matnr,
-             mtart TYPE string,
-             price TYPE p length 8 DECIMALS 2,
-           END OF _material_price,
-           _material_prices TYPE STANDARD TABLE OF _material_price WITH DEFAULT KEY.
-
-    TYPES: BEGIN OF _material_price_sum,
-             mtart TYPE string,
-             count TYPE i,
-             price TYPE p length 8 DECIMALS 2,
-           END OF _material_price_sum,
-           _material_prices_sum TYPE STANDARD TABLE OF _material_price_sum WITH DEFAULT KEY.
+    TYPES:
+      BEGIN OF _material_price,
+        matnr TYPE matnr,
+        mtart TYPE string,
+        price TYPE p LENGTH 8 DECIMALS 2,
+      END OF _material_price .
+    TYPES:
+      _material_prices TYPE STANDARD TABLE OF _material_price WITH DEFAULT KEY .
+    TYPES:
+      BEGIN OF _material_price_sum,
+        mtart TYPE string,
+        count TYPE i,
+        price TYPE p LENGTH 8 DECIMALS 2,
+      END OF _material_price_sum .
+    TYPES:
+      _material_prices_sum TYPE STANDARD TABLE OF _material_price_sum WITH DEFAULT KEY .
 
     METHODS fill_demo_data .
-
     METHODS fill_demo_data_numbers
       RETURNING
         VALUE(numbers) TYPE _numbers .
-
     METHODS fill_demo_data_materials
       RETURNING
-        VALUE(prices) TYPE _material_prices.
-
+        VALUE(prices) TYPE _material_prices .
     METHODS get_cities
       RETURNING
         VALUE(cities) TYPE string_table .
-
     METHODS get_cities_count_loop
       RETURNING
         VALUE(result) TYPE _cities_count .
-
     METHODS get_cities_count_for
       RETURNING
         VALUE(result) TYPE _cities_count .
-
     METHODS get_material_prices
       RETURNING
-        VALUE(result) TYPE _material_prices_sum.
-
+        VALUE(result) TYPE _material_prices_sum .
   PROTECTED SECTION.
-  PRIVATE SECTION.
-    DATA demo TYPE tt_demodata.
-    DATA numbers TYPE _numbers.
-    DATA material_prices TYPE _material_prices.
-    METHODS fill_demo_data_addresses
-      RETURNING VALUE(addressdata) TYPE tt_demodata.
+private section.
+
+  data DEMO type TT_DEMODATA .
+  data NUMBERS type _NUMBERS .
+  data MATERIAL_PRICES type _MATERIAL_PRICES .
+
+  methods FILL_DEMO_DATA_ADDRESSES
+    returning
+      value(ADDRESSDATA) type TT_DEMODATA .
+  methods FILL_RANGES_TABLE_CITY
+    returning
+      value(RANGE_TAB) type _GENERIC_RANGE_TAB .
+  methods FILL_RANGES_TABLE_NAME
+    returning
+      value(RANGE_TAB) type _GENERIC_RANGE_TAB .
 ENDCLASS.
 
 
@@ -116,6 +128,20 @@ CLASS ZCL_CODE_DOJO_NEW_FEATURES IMPLEMENTATION.
   METHOD fill_demo_data_numbers.
 
     numbers = VALUE #( FOR i = 1 WHILE i < 10 ( i = i )  ).
+
+  ENDMETHOD.
+
+
+  METHOD fill_ranges_table_city.
+
+    range_tab = VALUE #( FOR city IN get_cities( ) ( sign = 'I' option = 'EQ' low = city ) ).
+
+  ENDMETHOD.
+
+
+  METHOD FILL_RANGES_TABLE_NAME.
+
+    range_tab = VALUE #( FOR line IN demo ( sign = 'I' option = 'EQ' low = line-name_last ) ).
 
   ENDMETHOD.
 

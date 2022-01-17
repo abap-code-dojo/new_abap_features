@@ -1,4 +1,6 @@
-CLASS ltcl_ DEFINITION FINAL FOR TESTING
+CLASS ltcl_test DEFINITION DEFERRED.
+CLASS zcl_code_dojo_new_features DEFINITION LOCAL FRIENDS ltcl_test .
+CLASS ltcl_test DEFINITION FINAL FOR TESTING
   DURATION SHORT
   RISK LEVEL HARMLESS.
 
@@ -10,11 +12,13 @@ CLASS ltcl_ DEFINITION FINAL FOR TESTING
       cities FOR TESTING,
       cities_count_loop FOR TESTING,
       cities_count_for FOR TESTING,
-      material_prices FOR TESTING.
+      material_prices FOR TESTING,
+      range_name FOR TESTING,
+      range_city FOR TESTING.
 ENDCLASS.
 
 
-CLASS ltcl_ IMPLEMENTATION.
+CLASS ltcl_test IMPLEMENTATION.
 
   METHOD nine_numbers.
     cl_abap_unit_assert=>assert_equals(
@@ -52,12 +56,32 @@ CLASS ltcl_ IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD material_prices.
-    data(result) = f_cut->get_material_prices( ).
+    DATA(result) = f_cut->get_material_prices( ).
     cl_abap_unit_assert=>assert_equals(
     act = result
     exp = VALUE zcl_code_dojo_new_features=>_material_prices_sum(
        ( mtart = `HOLZ`   count = 3 price = `6.66` )
        ( mtart = `METALL` count = 2 price = `9.99` ) ) ).
+  ENDMETHOD.
+
+  METHOD range_name.
+    cl_abap_unit_assert=>assert_equals(
+    act = f_cut->fill_ranges_table_name( )
+    exp = VALUE zcl_code_dojo_new_features=>_generic_range_tab(
+      ( sign = 'I' option = 'EQ' low = 'Kattafelt' )
+      ( sign = 'I' option = 'EQ' low = 'Odertal'   )
+      ( sign = 'I' option = 'EQ' low = 'Dschäksn'  )
+      ( sign = 'I' option = 'EQ' low = 'Johnson'   )
+      ( sign = 'I' option = 'EQ' low = 'Bungee'    ) ) ).
+  ENDMETHOD.
+
+  METHOD range_city.
+    cl_abap_unit_assert=>assert_equals(
+    act = f_cut->fill_ranges_table_city( )
+    exp = VALUE zcl_code_dojo_new_features=>_generic_range_tab(
+      ( sign = 'I' option = 'EQ' low = `Berlin`   )
+      ( sign = 'I' option = 'EQ' low = `Hannover` )
+      ( sign = 'I' option = 'EQ' low = `Hamburg`  ) ) ).
   ENDMETHOD.
 
 ENDCLASS.
