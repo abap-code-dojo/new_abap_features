@@ -85,6 +85,9 @@ private section.
   methods FILL_RANGES_TABLE_NAME
     returning
       value(RANGE_TAB) type _GENERIC_RANGE_TAB .
+  methods FILL_RANGES_TABLE_HEADER
+    returning
+      value(RANGE_TAB) type _GENERIC_RANGE_TAB .
 ENDCLASS.
 
 
@@ -135,6 +138,16 @@ CLASS ZCL_CODE_DOJO_NEW_FEATURES IMPLEMENTATION.
   METHOD fill_ranges_table_city.
 
     range_tab = VALUE #( FOR city IN get_cities( ) ( sign = 'I' option = 'EQ' low = city ) ).
+
+  ENDMETHOD.
+
+
+  METHOD fill_ranges_table_header.
+
+    range_tab = VALUE #( sign = 'I' option = 'EQ'
+      ( low = 'ONE' )
+      ( low = 'TWO' )
+      ( low = 'THREE' ) ).
 
   ENDMETHOD.
 

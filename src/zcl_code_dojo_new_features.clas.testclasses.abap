@@ -14,7 +14,9 @@ CLASS ltcl_test DEFINITION FINAL FOR TESTING
       cities_count_for FOR TESTING,
       material_prices FOR TESTING,
       range_name FOR TESTING,
-      range_city FOR TESTING.
+      range_city FOR TESTING,
+      range_header FOR TESTING.
+
 ENDCLASS.
 
 
@@ -84,4 +86,12 @@ CLASS ltcl_test IMPLEMENTATION.
       ( sign = 'I' option = 'EQ' low = `Hamburg`  ) ) ).
   ENDMETHOD.
 
+  METHOD range_header.
+    cl_abap_unit_assert=>assert_equals(
+    act = f_cut->fill_ranges_table_header( )
+    exp = VALUE zcl_code_dojo_new_features=>_generic_range_tab(
+      ( sign = 'I' option = 'EQ' low = `ONE`   )
+      ( sign = 'I' option = 'EQ' low = `TWO` )
+      ( sign = 'I' option = 'EQ' low = `THREE`  ) ) ).
+  ENDMETHOD.
 ENDCLASS.
