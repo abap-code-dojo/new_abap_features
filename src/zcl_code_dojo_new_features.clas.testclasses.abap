@@ -15,7 +15,8 @@ CLASS ltcl_test DEFINITION FINAL FOR TESTING
       material_prices FOR TESTING,
       range_name FOR TESTING,
       range_city FOR TESTING,
-      range_header FOR TESTING.
+      range_header FOR TESTING,
+      string_template FOR TESTING.
 
 ENDCLASS.
 
@@ -94,4 +95,14 @@ CLASS ltcl_test IMPLEMENTATION.
       ( sign = 'I' option = 'EQ' low = `TWO` )
       ( sign = 'I' option = 'EQ' low = `THREE`  ) ) ).
   ENDMETHOD.
+
+  METHOD string_template.
+    DATA str TYPE string.
+
+    cl_abap_unit_assert=>assert_equals(
+     act = f_cut->create_text(  )
+     exp = |Hallo { sy-uname }, es ist { sy-uzeit } am { sy-datum }| ).
+
+  ENDMETHOD.
+
 ENDCLASS.
