@@ -69,30 +69,32 @@ CLASS zcl_code_dojo_new_features DEFINITION
     METHODS get_material_prices
       RETURNING
         VALUE(result) TYPE _material_prices_sum .
+    METHODS create_text
+      RETURNING VALUE(text) TYPE string.
   PROTECTED SECTION.
-private section.
+  PRIVATE SECTION.
 
-  data DEMO type TT_DEMODATA .
-  data NUMBERS type _NUMBERS .
-  data MATERIAL_PRICES type _MATERIAL_PRICES .
+    DATA demo TYPE tt_demodata .
+    DATA numbers TYPE _numbers .
+    DATA material_prices TYPE _material_prices .
 
-  methods FILL_DEMO_DATA_ADDRESSES
-    returning
-      value(ADDRESSDATA) type TT_DEMODATA .
-  methods FILL_RANGES_TABLE_CITY
-    returning
-      value(RANGE_TAB) type _GENERIC_RANGE_TAB .
-  methods FILL_RANGES_TABLE_NAME
-    returning
-      value(RANGE_TAB) type _GENERIC_RANGE_TAB .
-  methods FILL_RANGES_TABLE_HEADER
-    returning
-      value(RANGE_TAB) type _GENERIC_RANGE_TAB .
+    METHODS fill_demo_data_addresses
+      RETURNING
+        VALUE(addressdata) TYPE tt_demodata .
+    METHODS fill_ranges_table_city
+      RETURNING
+        VALUE(range_tab) TYPE _generic_range_tab .
+    METHODS fill_ranges_table_name
+      RETURNING
+        VALUE(range_tab) TYPE _generic_range_tab .
+    METHODS fill_ranges_table_header
+      RETURNING
+        VALUE(range_tab) TYPE _generic_range_tab .
 ENDCLASS.
 
 
 
-CLASS ZCL_CODE_DOJO_NEW_FEATURES IMPLEMENTATION.
+CLASS zcl_code_dojo_new_features IMPLEMENTATION.
 
 
   METHOD fill_demo_data.
@@ -152,7 +154,7 @@ CLASS ZCL_CODE_DOJO_NEW_FEATURES IMPLEMENTATION.
   ENDMETHOD.
 
 
-  METHOD FILL_RANGES_TABLE_NAME.
+  METHOD fill_ranges_table_name.
 
     range_tab = VALUE #( FOR line IN demo ( sign = 'I' option = 'EQ' low = line-name_last ) ).
 
@@ -212,4 +214,11 @@ CLASS ZCL_CODE_DOJO_NEW_FEATURES IMPLEMENTATION.
                                       NEXT sum = sum + i-price )  ) ).
 
   ENDMETHOD.
+
+  METHOD create_text.
+
+    text = |Hallo { sy-uname }, es ist { sy-uzeit } am { sy-datum }|.
+
+  ENDMETHOD.
+
 ENDCLASS.
